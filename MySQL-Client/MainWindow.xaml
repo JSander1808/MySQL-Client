@@ -1,12 +1,160 @@
 ﻿<Window x:Class="MySQL_Client.MainWindow"
+        x:Name="mainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MySQL_Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Height="1080"
+        Width="1920"
+        MinWidth="800"
+        MinHeight="500"
+        Background="#292929"
+        Title="MySQL">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="Gray"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#404040"/>
+                                <Setter Property="BorderThickness" TargetName="border" Value="2"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="Gray"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="BorderThickness" TargetName="border" Value="0"/>
+                                <Setter Property="Background" TargetName="border" Value="#292929"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type MenuItem}" x:Key="MenuItemStyle">
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Background" Value="#292929"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Margin" Value="-5,0,0,0"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-
+        <Grid x:Name="logo" Background="#292929" HorizontalAlignment="Left" VerticalAlignment="Top" Width="305" Height="109">
+            <Label Content="MySQL-Client" FontWeight="Bold" FontSize="45" Foreground="White" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid x:Name="explorer" Margin="0,114,0,0" HorizontalAlignment="Left" Width="305">
+            <Border BorderThickness="2" BorderBrush="Gray">
+                <Grid>
+                    <Label Content="Datein" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                    <TreeView x:Name="treeview" Background="#292929" Margin="0,20,0,0">
+                        <TreeViewItem x:Name="NewDatabase_Button" Header="Neue Datenbank" Foreground="White" FontSize="15" MouseDoubleClick="newDatabase_click"/>
+                    </TreeView>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Margin="320,0,0,0" Height="20" VerticalAlignment="Top">
+            <Label x:Name="addresslist" Content="Server:      -" Foreground="White" Padding="0,0,0,0" FontSize="15"/>
+        </Grid>
+        <Grid x:Name="toolbox" VerticalAlignment="Top" Height="89" Margin="310,20,0,0" >
+            <Border BorderThickness="2" BorderBrush="Gray">
+                <Grid Margin="0,0,0,0">
+                    <Label Content="Werkzeuge" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                    <DockPanel Margin="0,20,0,0" HorizontalAlignment="Left">
+                        <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Content="+Datenbank" Foreground="White" BorderThickness="0"/>
+                        <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Content="+Tabelle" Foreground="White" BorderThickness="0"/>
+                        <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Content="SQL" Foreground="White" BorderThickness="0"/>
+                    </DockPanel>
+                    <DockPanel HorizontalAlignment="Right" Margin="0,20,10,0">
+                        <Button x:Name="bt_login" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Content="Anmelden" Foreground="White" BorderThickness="0" Click="LogInButton_Click"/>
+                        <Button x:Name="bt_logout" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Content="Abmelden" Foreground="White" BorderThickness="0" IsEnabled="False" Click="LogOutButton_click"/>
+                    </DockPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid x:Name="table_view" Margin="310,114,300,0">
+            <Border BorderBrush="Gray" BorderThickness="2">
+                <Grid>
+                    <Label Content="Tabellen" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                    <DataGrid  x:Name="table_view_datagrid" Margin="0,20,0,0" Background="#292929" AlternatingRowBackground="#303030" RowBackground="#292929" RowHeaderWidth="0" Loaded="table_view_datagrid_Loaded" Foreground="White" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" IsReadOnly="True">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Foreground" Value="white"/>
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="MinWidth" Value="80"/>
+                                <Setter Property="Padding" Value="20,5,5,0"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Margin" Value="0,0,5,0"/>
+                            </Style>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="MinWidth" Value="80"/>
+                                <Setter Property="Margin" Value="0,5,5,0"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu Background="#292929" Foreground="White">
+                                <MenuItem Header="Bearbeiten" Style="{StaticResource MenuItemStyle}"/>
+                                <MenuItem Header="Löschen" Style="{StaticResource MenuItemStyle}"/>
+                                <MenuItem Header="Leeren" Style="{StaticResource MenuItemStyle}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid x:Name="propeties" HorizontalAlignment="Right" Width="295" Margin="0,114,0,150">
+            <Border BorderBrush="Gray" BorderThickness="2">
+                <Grid>
+                    <Label Content="Eigenschaften" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid x:Name="server_load" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="295" Height="145">
+            <Border BorderBrush="Gray" BorderThickness="2">
+                <Grid>
+                    <Label Content="Status" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
