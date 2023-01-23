@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,13 @@ namespace MySQL_Client {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            initialize();
+        }
+
+        public async void initialize() {
+            await Task.Run(() => { Thread.Sleep(1000); });
+            Login loginFrame = new Login();
+            loginFrame.Show();
         }
 
         private void table_view_datagrid_Loaded(object sender, RoutedEventArgs e) {
@@ -30,10 +38,12 @@ namespace MySQL_Client {
 
         private void LogInButton_Click(object sender, RoutedEventArgs e) {
             Login loginFrame = new Login();
-            loginFrame.ShowDialog();
+            loginFrame.Show();
         }
 
         private void LogOutButton_click(object sender, RoutedEventArgs e) {
+            ProzessManager pm = new ProzessManager("Logout",4);
+            pm.addProgress();
             MySQLHandle.setConnectionString(null!, 0, null!, null!, null!);
             bt_login.IsEnabled = true;
             bt_logout.IsEnabled = false;
@@ -41,15 +51,23 @@ namespace MySQL_Client {
             bt_addTable.IsEnabled = false;
             bt_sql.IsEnabled = false;
             treeview.Items.Clear();
-            TreeViewItem item = new TreeViewItem();
-            item.Header = "Neue Datenbank";
-            item.Foreground = Brushes.White;
-            item.FontSize = 15;
-            treeview.Items.Add(item);
+            pm.addProgress();
             MainViewManager.updateAddressList("Server:      -");
             DataGridTextColumn column = new DataGridTextColumn();
             column.Header = "Debug";
+            pm.addProgress();
             table_view_datagrid.ItemsSource = null;
+            no_table.Visibility = Visibility.Visible;
+            no_status.Visibility = Visibility.Visible;
+            no_propeties.Visibility = Visibility.Visible;
+            no_tableList.Visibility = Visibility.Visible;
+            addDatabase_image.Opacity = 0.2;
+            addTable_image.Opacity = 0.2;
+            openSql_image.Opacity = 0.2;
+            logout_image.Opacity = 0.2;
+            login_image.Opacity = 1;
+            pm.addProgress();
+            pm.done();
         }
 
         private void newDatabase_click(object sender, MouseButtonEventArgs e) {

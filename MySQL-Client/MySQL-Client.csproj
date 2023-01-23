@@ -9,7 +9,35 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SourceData\databaseAdd.png" />
+    <None Remove="SourceData\databaseAdd_white.png" />
+    <None Remove="SourceData\databaseRemove.png" />
+    <None Remove="SourceData\databaseRemove_white.png" />
+    <None Remove="SourceData\login_white.png" />
+    <None Remove="SourceData\logout_white.png" />
+    <None Remove="SourceData\sql_white.png" />
+    <None Remove="SourceData\tableAdd.png" />
+    <None Remove="SourceData\tableAdd_white.png" />
+    <None Remove="SourceData\tableRemove.png" />
+    <None Remove="SourceData\tableRemove_white.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.32" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="SourceData\databaseAdd.png" />
+    <Resource Include="SourceData\databaseAdd_white.png" />
+    <Resource Include="SourceData\databaseRemove.png" />
+    <Resource Include="SourceData\databaseRemove_white.png" />
+    <Resource Include="SourceData\login_white.png" />
+    <Resource Include="SourceData\logout_white.png" />
+    <Resource Include="SourceData\sql_white.png" />
+    <Resource Include="SourceData\tableAdd.png" />
+    <Resource Include="SourceData\tableAdd_white.png" />
+    <Resource Include="SourceData\tableRemove.png" />
+    <Resource Include="SourceData\tableRemove_white.png" />
   </ItemGroup>
 
 </Project>

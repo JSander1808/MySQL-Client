@@ -83,13 +83,12 @@
         <Grid x:Name="logo" Background="#292929" HorizontalAlignment="Left" VerticalAlignment="Top" Width="305" Height="109">
             <Label Content="MySQL-Client" FontWeight="Bold" FontSize="45" Foreground="White" VerticalAlignment="Center"/>
         </Grid>
-        <Grid x:Name="explorer" Margin="0,114,0,0" HorizontalAlignment="Left" Width="305">
+        <Grid x:Name="explorer" Margin="0,114,0,33" HorizontalAlignment="Left" Width="305">
             <Border BorderThickness="2" BorderBrush="Gray">
                 <Grid>
                     <Label Content="Datein" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
-                    <TreeView x:Name="treeview" Background="#292929" Margin="0,20,0,0">
-                        <TreeViewItem x:Name="NewDatabase_Button" Header="Neue Datenbank" Foreground="White" FontSize="15" MouseDoubleClick="newDatabase_click"/>
-                    </TreeView>
+                    <TreeView x:Name="treeview" Background="#292929" Margin="0,20,0,0"/>
+                    <Label x:Name="no_tableList" Content="Kein Datein verfügbar." Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                 </Grid>
             </Border>
         </Grid>
@@ -101,18 +100,28 @@
                 <Grid Margin="0,0,0,0">
                     <Label Content="Werkzeuge" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
                     <DockPanel Margin="0,20,0,0" HorizontalAlignment="Left">
-                        <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Content="+Datenbank" Foreground="White" BorderThickness="0"/>
-                        <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Content="+Tabelle" Foreground="White" BorderThickness="0"/>
-                        <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Content="SQL" Foreground="White" BorderThickness="0"/>
+                        <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                            <Image x:Name="addDatabase_image" Source="SourceData/databaseAdd_white.png" Opacity="0.2"/>
+                        </Button>
+                        <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                            <Image x:Name="addTable_image" Source="SourceData/tableAdd_white.png" Opacity="0.2"/>
+                        </Button>
+                        <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                            <Image x:Name="openSql_image" Source="SourceData/sql_white.png" Opacity="0.2"/>
+                        </Button>
                     </DockPanel>
                     <DockPanel HorizontalAlignment="Right" Margin="0,20,10,0">
-                        <Button x:Name="bt_login" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Content="Anmelden" Foreground="White" BorderThickness="0" Click="LogInButton_Click"/>
-                        <Button x:Name="bt_logout" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Content="Abmelden" Foreground="White" BorderThickness="0" IsEnabled="False" Click="LogOutButton_click"/>
+                        <Button x:Name="bt_login" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="LogInButton_Click">
+                            <Image x:Name="login_image" Source="SourceData/login_white.png"/>
+                        </Button>
+                        <Button x:Name="bt_logout" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" IsEnabled="False" Click="LogOutButton_click">
+                            <Image x:Name="logout_image" Source="SourceData/logout_white.png" Opacity="0.2"/>
+                        </Button>
                     </DockPanel>
                 </Grid>
             </Border>
         </Grid>
-        <Grid x:Name="table_view" Margin="310,114,300,0">
+        <Grid x:Name="table_view" Margin="310,114,300,33">
             <Border BorderBrush="Gray" BorderThickness="2">
                 <Grid>
                     <Label Content="Tabellen" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
@@ -139,22 +148,31 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
+                    <Label x:Name="no_table" Content="Kein Tabelle verfügbar." Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                 </Grid>
             </Border>
         </Grid>
-        <Grid x:Name="propeties" HorizontalAlignment="Right" Width="295" Margin="0,114,0,150">
+        <Grid x:Name="propeties" HorizontalAlignment="Right" Width="295" Margin="0,114,0,183">
             <Border BorderBrush="Gray" BorderThickness="2">
                 <Grid>
-                    <Label Content="Eigenschaften" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                   <Label Content="Eigenschaften" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+
+                    <Label x:Name="no_propeties" Content="Keine Eigenschaften verfügbar" FontSize="20" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
         </Grid>
-        <Grid x:Name="server_load" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="295" Height="145">
+        <Grid x:Name="server_load" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="295" Height="145" Margin="0,0,0,33">
             <Border BorderBrush="Gray" BorderThickness="2">
                 <Grid>
                     <Label Content="Status" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+
+                    <Label x:Name="no_status" Content="Kein Status verfügbar" FontSize="20" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
+        </Grid>
+        <Grid Background="#404040" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
+            <Label x:Name="programm_version" Content="MySQL-Client Version: 0.1.0" Foreground="White" FontSize="20" Padding="10,0,0,0"/>
+            <DockPanel x:Name="prozess_panel" Margin="313,0,0,0" HorizontalAlignment="Right" MaxWidth="1074"/>
         </Grid>
     </Grid>
 </Window>

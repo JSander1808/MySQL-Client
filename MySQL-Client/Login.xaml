@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Height="380"
-        Width="500"
+        Width="725"
+        ResizeMode="NoResize"
         Background="#292929"
         Title="MySQL - Anmeldung">
     <Window.Resources>
@@ -71,17 +72,27 @@
     </Window.Resources>
     <Grid>
         <Label Content="Anmeldung&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Height="78" Width="269" FontSize="45" Padding="10,10,0,0" FontWeight="Bold" Foreground="White"/>
-        <Label Content="Ip Addresse" HorizontalAlignment="Left" Margin="27,100,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
-        <TextBox x:Name="tb_ip" HorizontalAlignment="Left" Margin="31,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="20" Width="218" Background="#404040" Foreground="White" Height="29"/>
-        <Label Content="Port" HorizontalAlignment="Left" Margin="301,100,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
-        <TextBox x:Name="tb_port" HorizontalAlignment="Left" PreviewTextInput="NumberValidationTextBox" Margin="305,135,0,0" TextWrapping="Wrap" FontSize="20" Text="3306" VerticalAlignment="Top" Width="88" Background="#404040" Foreground="White" Height="29"/>
-        <Label Content="Benutzer" HorizontalAlignment="Left" Margin="27,183,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
-        <TextBox x:Name="tb_user" HorizontalAlignment="Left" Margin="31,220,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="180" Background="#404040" Foreground="White" Height="29"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="260,183,0,0" VerticalAlignment="Top" Width="97" Foreground="White" FontSize="20"/>
-        <PasswordBox x:Name="pwb_pw" HorizontalAlignment="Left" Margin="265,220,0,0" VerticalAlignment="Top" Width="180" Background="#404040" Foreground="White" Height="29" FontSize="20"/>
-        <Button Style="{DynamicResource ButtonStyle}" Content="Abbrechen" HorizontalAlignment="Left" Margin="295,293,0,0" VerticalAlignment="Top" Height="29" Background="#292929" Foreground="White" Width="150" BorderBrush="Gray" BorderThickness="2" Click="cancel_click"/>
-        <Button Style="{DynamicResource ButtonStyle}" Content="Anmelden" HorizontalAlignment="Left" Margin="134,294,0,0" VerticalAlignment="Top" Height="28" Background="#292929" Foreground="White" Width="150" BorderBrush="Gray" BorderThickness="2" Click="login_click"/>
-        <Label x:Name="lb_error" HorizontalAlignment="Left" Margin="31,254,0,0" VerticalAlignment="Top" Width="414" Height="31" Foreground="Red"/>
-        <ProgressBar x:Name="pb_login" HorizontalAlignment="Left" Height="14" Margin="10,308,0,0" BorderThickness="1" Visibility="Collapsed" VerticalAlignment="Top" Width="117" Background="#292929" Foreground="Lime" Maximum="5"/>
+        <Grid Margin="0,0,0,0">
+            <Label Content="Ip Addresse" HorizontalAlignment="Right" Margin="0,104,295,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
+            <TextBox x:Name="tb_ip" HorizontalAlignment="Right" Margin="0,141,191,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="20" Width="218" Background="#404040" Foreground="White" Height="29"/>
+            <Label Content="Port" HorizontalAlignment="Right" Margin="0,104,97,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
+            <TextBox x:Name="tb_port" HorizontalAlignment="Right" PreviewTextInput="NumberValidationTextBox" Margin="0,141,55,0" TextWrapping="Wrap" FontSize="20" Text="3306" VerticalAlignment="Top" Width="88" Background="#404040" Foreground="White" Height="29"/>
+            <Label Content="Benutzer" HorizontalAlignment="Right" Margin="0,189,321,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
+            <TextBox x:Name="tb_user" HorizontalAlignment="Right" Margin="0,226,229,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="180" Background="#404040" Foreground="White" Height="29"/>
+            <Label Content="Password" HorizontalAlignment="Right" Margin="0,191,100,0" VerticalAlignment="Top" Width="97" Foreground="White" FontSize="20"/>
+            <PasswordBox x:Name="pwb_pw" HorizontalAlignment="Right" Margin="0,226,20,0" VerticalAlignment="Top" Width="180" Background="#404040" Foreground="White" Height="29" FontSize="20"/>
+            <Button Style="{DynamicResource ButtonStyle}" Content="Abbrechen" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="29" Background="#292929" Foreground="White" Width="150" BorderBrush="Gray" BorderThickness="2" Click="cancel_click"/>
+            <Button Style="{DynamicResource ButtonStyle}" Content="Anmelden" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,169,10" Height="29" Background="#292929" Foreground="White" Width="150" BorderBrush="Gray" BorderThickness="2" Click="login_click"/>
+            <Label x:Name="lb_error" HorizontalAlignment="Left" Margin="318,265,0,0" VerticalAlignment="Top" Width="387" Height="32" Foreground="Red"/>
+            <Grid Width="1" HorizontalAlignment="Right" Margin="0,100,416,10" Background="Gray"/>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="179,0,0,10" Height="147">
+                <Button Style="{DynamicResource ButtonStyle}" Width="100" Height="25" Background="#292929" Content="Speichern" Foreground="White" FontSize="15" HorizontalAlignment="Center" Margin="0,0,0,75" Click="save_loginData_click"/>
+                <Button Style="{DynamicResource ButtonStyle}" Width="100" Height="25" Background="#292929" Content="Laden" Foreground="White" FontSize="15" HorizontalAlignment="Center" Margin="0,0,0,10" Click="load_loginData_click"/>
+                <Button Style="{DynamicResource ButtonStyle}" Width="100" Height="25" Background="#292929" Content="Löschen" Foreground="White" FontSize="15" HorizontalAlignment="Center" Margin="0,0,0,-55" Click="delete_loginData_click"/>
+            </Grid>
+            <Label Content="Speicherungs Name" Foreground="White" Height="20" Width="150" Padding="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,187" FontSize="15"/>
+            <TextBox Name="tb_saveName" Foreground="White" Height="20" Width="164" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,165" Background="#404040"/>
+            <ListBox x:Name="lb_saveDataPanel" Foreground="White" Height="150" Width="164" Background="#292929" Margin="10,0,0,10" HorizontalContentAlignment="Left" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+        </Grid>
     </Grid>
 </Window>
