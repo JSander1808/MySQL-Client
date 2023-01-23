@@ -9,11 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace MySQL_Client
 {
     class MySQLHandle
     {
+        private static Dispatcher uidispatcher = Application.Current.Dispatcher;
         private static string ip = null!;
         private static uint port = 0;
         private static string userId = null!;
@@ -31,6 +33,9 @@ namespace MySQL_Client
 
         public static void setDatabase(string SendDatabase) {
             database= SendDatabase;
+            uidispatcher.BeginInvoke(() => {
+                ((MainWindow)Application.Current.MainWindow).addresslist.Content = "Server: " + ip + "  >> Datenbank: " + SendDatabase;
+            });
         }
 
         private static string buildConnectionString() {
@@ -51,7 +56,8 @@ namespace MySQL_Client
                 connection.Open();
                 MySqlCommand mySqlCommand = new MySqlCommand(command, connection);
                 return mySqlCommand.ExecuteReader();
-            }catch(Exception) {
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
                 return null!;
             }
         }
@@ -61,18 +67,24 @@ namespace MySQL_Client
                 MySqlConnection connection = new MySqlConnection(buildConnectionString());
                 connection.Open();
                 return true;
-            }catch(Exception) {
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
                 return false;
             }
         }
 
         public static DataTable SelectData(string sendCommand) {
-            MySqlConnection connection = new MySqlConnection(buildConnectionString());
-            connection.Open();
-            MySqlDataAdapter da = new MySqlDataAdapter(sendCommand, connection);
-            DataTable dt = new DataTable("Call Reciept");
-            da.Fill(dt);
-            return dt;
+            try {
+                MySqlConnection connection = new MySqlConnection(buildConnectionString());
+                connection.Open();
+                MySqlDataAdapter da = new MySqlDataAdapter(sendCommand, connection);
+                DataTable dt = new DataTable("Call Reciept");
+                da.Fill(dt);
+                return dt;
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
+                return null!;
+            }
         }
     }
 }

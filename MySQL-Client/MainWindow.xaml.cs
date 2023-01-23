@@ -38,7 +38,7 @@ namespace MySQL_Client {
 
         private void LogInButton_Click(object sender, RoutedEventArgs e) {
             Login loginFrame = new Login();
-            loginFrame.Show();
+            loginFrame.ShowDialog();
         }
 
         private void LogOutButton_click(object sender, RoutedEventArgs e) {
@@ -66,6 +66,8 @@ namespace MySQL_Client {
             openSql_image.Opacity = 0.2;
             logout_image.Opacity = 0.2;
             login_image.Opacity = 1;
+            table_view.Margin = new Thickness(310, 114, 300, 33);
+            sql_commander.Visibility = Visibility.Collapsed;
             pm.addProgress();
             pm.done();
         }
@@ -76,6 +78,32 @@ namespace MySQL_Client {
 
         private static void loadDataTable(object sender, MouseButtonEventArgs e) {
 
+        }
+
+        private void sql_click(object sender, RoutedEventArgs e) {
+            if(sql_commander.Visibility == Visibility.Collapsed) {
+                table_view.Margin = new Thickness(310, 340, 300, 33);
+                sql_commander.Visibility = Visibility.Visible;
+                tb_sqlCommand.Clear();
+            } else {
+                table_view.Margin = new Thickness(310, 114, 300, 33);
+                sql_commander.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void sqlSubmit(object sender, RoutedEventArgs e) {
+            ProzessManager pm = new ProzessManager("Sql Request",0);
+            pm.addProgress();
+            if(tb_sqlCommand.Text != "" && tb_sqlCommand.Text != null) {
+                pm.addProgress();
+                DataTable dt = MySQLHandle.SelectData(tb_sqlCommand.Text);
+                if (dt != null) {
+                    table_view_datagrid.ItemsSource = dt.DefaultView;
+                    no_table.Visibility = Visibility.Collapsed;
+                }
+            }
+            pm.addProgress();
+            pm.done();
         }
     }
 }

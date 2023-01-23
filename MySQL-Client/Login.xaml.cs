@@ -74,10 +74,12 @@ namespace MySQL_Client {
                     for (int i = 0; i < reader.FieldCount; i++) {
                         TreeViewItem item = null!;
                         this.Dispatcher.Invoke(() => {
+                            string header = reader.GetString(i);
                             item = new TreeViewItem();
-                            item.Header = reader.GetString(i);
+                            item.Header = header;
                             item.FontSize = 15;
                             item.Foreground = Brushes.White;
+                            item.Selected += (sender, e) => { MySQLHandle.setDatabase(header); };
                         });
                         MySqlDataReader reader1 = MySQLHandle.GetData("show tables from " + reader.GetString(i) + ";");
                         if (reader1 != null) {

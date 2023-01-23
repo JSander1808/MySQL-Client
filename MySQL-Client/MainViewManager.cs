@@ -24,7 +24,7 @@ namespace MySQL_Client {
             pm.addProgress();
             DataTable dt = MySQLHandle.SelectData("select * from `" + tagArgs[2] + "`;");
             pm.addProgress();
-            uidispatcher.BeginInvoke(() => { ((MainWindow)System.Windows.Application.Current.MainWindow).table_view_datagrid.ItemsSource = dt.DefaultView; });
+            if(dt != null) uidispatcher.BeginInvoke(() => { ((MainWindow)System.Windows.Application.Current.MainWindow).table_view_datagrid.ItemsSource = dt.DefaultView; });
             pm.addProgress();
             updateAddressList("Server: " + tagArgs[0]+" >> Datenbank: " + tagArgs[1]+" >> Tabelle: " + tagArgs[2]);
             uidispatcher.BeginInvoke(() => { ((MainWindow)System.Windows.Application.Current.MainWindow).no_table.Visibility = Visibility.Collapsed; });
@@ -34,6 +34,13 @@ namespace MySQL_Client {
 
         public static void updateAddressList(string command) {
             uidispatcher.BeginInvoke(() => { ((MainWindow)System.Windows.Application.Current.MainWindow).addresslist.Content = command; });
+        }
+
+        public static void setErrorMessage(string message) {
+            uidispatcher.BeginInvoke(() => {
+                Error error = new Error(message);
+                error.ShowDialog();
+            });
         }
     }
 }

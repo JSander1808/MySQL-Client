@@ -106,7 +106,7 @@
                         <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
                             <Image x:Name="addTable_image" Source="SourceData/tableAdd_white.png" Opacity="0.2"/>
                         </Button>
-                        <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                        <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="sql_click">
                             <Image x:Name="openSql_image" Source="SourceData/sql_white.png" Opacity="0.2"/>
                         </Button>
                     </DockPanel>
@@ -118,6 +118,16 @@
                             <Image x:Name="logout_image" Source="SourceData/logout_white.png" Opacity="0.2"/>
                         </Button>
                     </DockPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid x:Name="sql_commander" VerticalAlignment="Top" Margin="310,114,300,0" Height="221" Visibility="Collapsed">
+            <Border BorderBrush="Gray" BorderThickness="2">
+                <Grid>
+                    <Label Content="SQL Console" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Content="X" Click="sql_click"/>
+                    <TextBox x:Name="tb_sqlCommand" Background="#292929" VerticalAlignment="Top" Height="141" Margin="10,25,10,0" RenderTransformOrigin="0.5,0.5" Foreground="White"/>
+                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="160" Height="29" Margin="0,0,10,10" Content="Senden" Foreground="White" FontSize="20" Click="sqlSubmit"/>
                 </Grid>
             </Border>
         </Grid>
@@ -155,7 +165,7 @@
         <Grid x:Name="propeties" HorizontalAlignment="Right" Width="295" Margin="0,114,0,183">
             <Border BorderBrush="Gray" BorderThickness="2">
                 <Grid>
-                   <Label Content="Eigenschaften" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                    <Label Content="Eigenschaften" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
 
                     <Label x:Name="no_propeties" Content="Keine Eigenschaften verfügbar" FontSize="20" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
