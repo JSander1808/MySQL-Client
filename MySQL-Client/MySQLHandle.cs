@@ -13,14 +13,13 @@ using System.Windows.Threading;
 
 namespace MySQL_Client
 {
-    class MySQLHandle
-    {
+    class MySQLHandle {
         private static Dispatcher uidispatcher = Application.Current.Dispatcher;
-        private static string ip = null!;
-        private static uint port = 0;
-        private static string userId = null!;
-        private static string password = null!;
-        private static string database = null!;
+        public static string ip = null!;
+        public static uint port = 0;
+        public static string userId = null!;
+        public static string password = null!;
+        public static string database = null!;
         public MySQLHandle() { }
 
         public static void setConnectionString(string sendServer, uint sendPort, string sendUserID, string sendPassword, string sendDatabase) {
@@ -33,9 +32,11 @@ namespace MySQL_Client
 
         public static void setDatabase(string SendDatabase) {
             database= SendDatabase;
-            uidispatcher.BeginInvoke(() => {
-                ((MainWindow)Application.Current.MainWindow).addresslist.Content = "Server: " + ip + "  >> Datenbank: " + SendDatabase;
-            });
+            if(SendDatabase != null) {
+                MainViewManager.updateAddressList("Server: "+ip+" >> Datenbank: "+SendDatabase);
+            } else {
+                MainViewManager.updateAddressList("Server: " + ip);
+            }
         }
 
         private static string buildConnectionString() {

@@ -15,79 +15,105 @@ namespace MySQL_Client {
         }
 
         public void init() {
-            if (!File.Exists(path)) {
-                string[] temppath = path.Split('\\');
-                string dicPath = string.Empty;
-                string filePath = temppath[temppath.Length - 1];
-                for (int i = 0; i < temppath.Length - 1; i++) {
-                    dicPath += temppath[i] + "\\";
+            try {
+                if (!File.Exists(path)) {
+                    string[] temppath = path.Split('\\');
+                    string dicPath = string.Empty;
+                    string filePath = temppath[temppath.Length - 1];
+                    for (int i = 0; i < temppath.Length - 1; i++) {
+                        dicPath += temppath[i] + "\\";
+                    }
+                    Directory.CreateDirectory(dicPath);
+                    File.Create(dicPath + "\\" + filePath).Close();
                 }
-                Directory.CreateDirectory(dicPath);
-                File.Create(dicPath + "\\" + filePath).Close();
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
             }
         }
 
         public string get(string input) {
-            string data;
-            string[] dataAll = File.ReadAllLines(path);
-            for (int i = 0; i < dataAll.Length; i++) {
-                if (dataAll[i].Split('^')[0] == input) {
-                    return dataAll[i].Split('^')[1];
+            try {
+                string data;
+                string[] dataAll = File.ReadAllLines(path);
+                for (int i = 0; i < dataAll.Length; i++) {
+                    if (dataAll[i].Split('^')[0] == input) {
+                        return dataAll[i].Split('^')[1];
+                    }
                 }
+                return "";
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
+                return null;
             }
-            return "";
         }
 
         public void set(string command, string alias) {
-            string[] dataAll = File.ReadAllLines(path);
-            List<string> data = new List<string>();
-            bool exists = false;
-            for (int i = 0; i < dataAll.Length; i++) {
-                if (dataAll[i].Split('^')[0] == command) {
-                    data.Add(command + "^" + alias);
-                    exists = true;
-                } else {
-                    data.Add(dataAll[i]);
+            try {
+                string[] dataAll = File.ReadAllLines(path);
+                List<string> data = new List<string>();
+                bool exists = false;
+                for (int i = 0; i < dataAll.Length; i++) {
+                    if (dataAll[i].Split('^')[0] == command) {
+                        data.Add(command + "^" + alias);
+                        exists = true;
+                    } else {
+                        data.Add(dataAll[i]);
+                    }
                 }
+                if (!exists) {
+                    data.Add(command + "^" + alias);
+                }
+                string[] writeData = new string[data.Count];
+                for (int i = 0; i < data.Count; i++) {
+                    writeData[i] = data[i];
+                }
+                File.WriteAllText(path, string.Empty);
+                File.WriteAllLines(path, writeData);
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
             }
-            if (!exists) {
-                data.Add(command + "^" + alias);
-            }
-            string[] writeData = new string[data.Count];
-            for (int i = 0; i < data.Count; i++) {
-                writeData[i] = data[i];
-            }
-            File.WriteAllText(path, string.Empty);
-            File.WriteAllLines(path, writeData);
         }
 
         public void clear() {
-            File.WriteAllText(path, string.Empty);
+            try {
+                File.WriteAllText(path, string.Empty);
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
+            }
         }
 
         public void remove(string command) {
-            string[] dataAll = File.ReadAllLines(path);
-            List<string> data = new List<string>();
-            for (int i = 0; i < dataAll.Length; i++) {
-                if (dataAll[i].Split('^')[0] != command) {
-                    data.Add(dataAll[i]);
+            try {
+                string[] dataAll = File.ReadAllLines(path);
+                List<string> data = new List<string>();
+                for (int i = 0; i < dataAll.Length; i++) {
+                    if (dataAll[i].Split('^')[0] != command) {
+                        data.Add(dataAll[i]);
+                    }
                 }
+                string[] writeData = new string[data.Count];
+                for (int i = 0; i < data.Count; i++) {
+                    writeData[i] = data[i];
+                }
+                File.WriteAllText(path, string.Empty);
+                File.WriteAllLines(path, writeData);
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
             }
-            string[] writeData = new string[data.Count];
-            for (int i = 0; i < data.Count; i++) {
-                writeData[i] = data[i];
-            }
-            File.WriteAllText(path, string.Empty);
-            File.WriteAllLines(path, writeData);
         }
 
         public List<string> readLines() {
-            string[] dataAll = File.ReadAllLines(path);
-            List<string> data = new List<string>();
-            for (int i = 0; i < dataAll.Length; i++) {
-                data.Add(dataAll[i]);
+            try {
+                string[] dataAll = File.ReadAllLines(path);
+                List<string> data = new List<string>();
+                for (int i = 0; i < dataAll.Length; i++) {
+                    data.Add(dataAll[i]);
+                }
+                return data;
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.Message);
+                return null;
             }
-            return data;
         }
     }
 }

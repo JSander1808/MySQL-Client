@@ -13,8 +13,10 @@
     <None Remove="SourceData\databaseAdd_white.png" />
     <None Remove="SourceData\databaseRemove.png" />
     <None Remove="SourceData\databaseRemove_white.png" />
+    <None Remove="SourceData\help.png" />
     <None Remove="SourceData\login_white.png" />
     <None Remove="SourceData\logout_white.png" />
+    <None Remove="SourceData\reload_white.png" />
     <None Remove="SourceData\sql_white.png" />
     <None Remove="SourceData\tableAdd.png" />
     <None Remove="SourceData\tableAdd_white.png" />
@@ -31,8 +33,10 @@
     <Resource Include="SourceData\databaseAdd_white.png" />
     <Resource Include="SourceData\databaseRemove.png" />
     <Resource Include="SourceData\databaseRemove_white.png" />
+    <Resource Include="SourceData\help.png" />
     <Resource Include="SourceData\login_white.png" />
     <Resource Include="SourceData\logout_white.png" />
+    <Resource Include="SourceData\reload_white.png" />
     <Resource Include="SourceData\sql_white.png" />
     <Resource Include="SourceData\tableAdd.png" />
     <Resource Include="SourceData\tableAdd_white.png" />

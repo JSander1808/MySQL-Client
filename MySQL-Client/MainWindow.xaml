@@ -87,6 +87,9 @@
             <Border BorderThickness="2" BorderBrush="Gray">
                 <Grid>
                     <Label Content="Datein" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Click="reloadTreeView">
+                        <Image Source="SourceData/reload_white.png"/>
+                    </Button>
                     <TreeView x:Name="treeview" Background="#292929" Margin="0,20,0,0"/>
                     <Label x:Name="no_tableList" Content="Kein Datein verfügbar." Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                 </Grid>
@@ -103,14 +106,23 @@
                         <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
                             <Image x:Name="addDatabase_image" Source="SourceData/databaseAdd_white.png" Opacity="0.2"/>
                         </Button>
+                        <Button x:Name="bt_removeDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                            <Image x:Name="removeDatabase_image" Source="SourceData/databaseRemove_white.png" Opacity="0.2"/>
+                        </Button>
                         <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
                             <Image x:Name="addTable_image" Source="SourceData/tableAdd_white.png" Opacity="0.2"/>
+                        </Button>
+                        <Button x:Name="bt_removeTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                            <Image x:Name="removeTable_image" Source="SourceData/tableRemove_white.png" Opacity="0.2"/>
                         </Button>
                         <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="sql_click">
                             <Image x:Name="openSql_image" Source="SourceData/sql_white.png" Opacity="0.2"/>
                         </Button>
                     </DockPanel>
                     <DockPanel HorizontalAlignment="Right" Margin="0,20,10,0">
+                        <Button x:Name="bt_help" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" IsEnabled="True">
+                            <Image x:Name="help_image" Source="SourceData/help.png"/>
+                        </Button>
                         <Button x:Name="bt_login" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="LogInButton_Click">
                             <Image x:Name="login_image" Source="SourceData/login_white.png"/>
                         </Button>

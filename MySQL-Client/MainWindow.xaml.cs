@@ -30,7 +30,7 @@ namespace MySQL_Client {
         public async void initialize() {
             await Task.Run(() => { Thread.Sleep(1000); });
             Login loginFrame = new Login();
-            loginFrame.Show();
+            loginFrame.ShowDialog();
         }
 
         private void table_view_datagrid_Loaded(object sender, RoutedEventArgs e) {
@@ -50,6 +50,8 @@ namespace MySQL_Client {
             bt_addDatabase.IsEnabled = false;
             bt_addTable.IsEnabled = false;
             bt_sql.IsEnabled = false;
+            bt_removeDatabase.IsEnabled = false;
+            bt_removeTable.IsEnabled = false;
             treeview.Items.Clear();
             pm.addProgress();
             MainViewManager.updateAddressList("Server:      -");
@@ -66,6 +68,8 @@ namespace MySQL_Client {
             openSql_image.Opacity = 0.2;
             logout_image.Opacity = 0.2;
             login_image.Opacity = 1;
+            removeDatabase_image.Opacity = 0.2;
+            removeTable_image.Opacity = 0.2;
             table_view.Margin = new Thickness(310, 114, 300, 33);
             sql_commander.Visibility = Visibility.Collapsed;
             pm.addProgress();
@@ -102,8 +106,14 @@ namespace MySQL_Client {
                     no_table.Visibility = Visibility.Collapsed;
                 }
             }
+            MainViewManager.updateTreeView();
             pm.addProgress();
             pm.done();
+        }
+
+        private void reloadTreeView(object sender, RoutedEventArgs e) {
+            Thread thread = new Thread(() => { MainViewManager.updateTreeView(); });
+            thread.Start();
         }
     }
 }

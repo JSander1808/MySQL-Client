@@ -2,6 +2,7 @@
 using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -46,7 +47,7 @@ namespace MySQL_Client {
         }
 
         private void login() {
-            ProzessManager pm = new ProzessManager("Login",5);
+            ProzessManager pm = new ProzessManager("Login", 5);
             MySQLHandle.setConnectionString(ip, port, user, password, null!);
             pm.addProgress();
             if (!MySQLHandle.isConnected()) {
@@ -56,55 +57,8 @@ namespace MySQL_Client {
                 });
                 return;
             }
-            this.Dispatcher.Invoke(() => {
-                MainViewManager.updateAddressList("Server: " + tb_ip.Text);
-            });
             pm.addProgress();
-            MySqlDataReader reader = MySQLHandle.GetData("show databases;");
-            pm.addProgress();
-            this.Dispatcher.Invoke(() => {
-                TreeViewItem newDatabase = new TreeViewItem();
-                newDatabase.Header = "Neue Datenbank";
-                newDatabase.FontSize = 15;
-                newDatabase.Foreground = Brushes.White;
-                ((MainWindow)Application.Current.MainWindow).treeview.Items.Add(newDatabase);
-            });
-            if (reader != null) {
-                while (reader.Read()) {
-                    for (int i = 0; i < reader.FieldCount; i++) {
-                        TreeViewItem item = null!;
-                        this.Dispatcher.Invoke(() => {
-                            string header = reader.GetString(i);
-                            item = new TreeViewItem();
-                            item.Header = header;
-                            item.FontSize = 15;
-                            item.Foreground = Brushes.White;
-                            item.Selected += (sender, e) => { MySQLHandle.setDatabase(header); };
-                        });
-                        MySqlDataReader reader1 = MySQLHandle.GetData("show tables from " + reader.GetString(i) + ";");
-                        if (reader1 != null) {
-                            while (reader1.Read()) {
-                                for (int j = 0; j < reader1.FieldCount; j++) {
-                                    TreeViewItem item1 = null!;
-                                    this.Dispatcher.Invoke(() => {
-                                        item1 = new TreeViewItem();
-                                        item1.Header = reader1.GetString(j);
-                                        item1.FontSize = 15;
-                                        item1.Foreground = Brushes.White;
-                                        string command = ip+ "!?#-2" + reader.GetString(i)+ "!?#-2" + reader1.GetString(j);
-                                        item1.Selected += (sender,e) => {
-                                            Thread thread = new Thread(() => { MainViewManager.loadDataTable(command); });
-                                            thread.Start();
-                                        };
-                                        item.Items.Add(item1);
-                                    });
-                                }
-                            }
-                        }
-                        this.Dispatcher.Invoke(() => { ((MainWindow)System.Windows.Application.Current.MainWindow).treeview.Items.Add(item); });
-                    }
-                }
-            }
+            MainViewManager.updateTreeView();
             pm.addProgress();
             this.Dispatcher.Invoke(() => {
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_login.IsEnabled = false;
@@ -112,11 +66,15 @@ namespace MySQL_Client {
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_addDatabase.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_addTable.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_sql.IsEnabled = true;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeDatabase.IsEnabled = true;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeTable.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).addDatabase_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).addTable_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).openSql_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).login_image.Opacity = 0.2;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).logout_image.Opacity = 1;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).removeDatabase_image.Opacity = 1;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).removeTable_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).no_tableList.Visibility = Visibility.Collapsed;
                 Close();
             });
@@ -129,11 +87,11 @@ namespace MySQL_Client {
         }
 
         private void save_loginData_click(object sender, RoutedEventArgs e) {
-            ProzessManager pm = new ProzessManager("Save Logindata",4);
+            ProzessManager pm = new ProzessManager("Save Logindata", 4);
             pm.addProgress();
-            if(tb_saveName.Text != "" && tb_saveName != null) {
+            if (tb_saveName.Text != "" && tb_saveName != null) {
                 pm.addProgress();
-                ConfigManager config = new ConfigManager("Data\\Login\\Data.conf");
+                ConfigManager config = new ConfigManager(Directory.GetCurrentDirectory + "Data\\Login\\Data.conf");
                 config.init();
                 pm.addProgress();
                 string seperator = "2#g6b";
@@ -153,9 +111,9 @@ namespace MySQL_Client {
         private void load_loginData_click(object sender, RoutedEventArgs e) {
             ProzessManager pm = new ProzessManager("Load Logindata", 5);
             pm.addProgress();
-            if(lb_saveDataPanel.SelectedItem!= null) {
+            if (lb_saveDataPanel.SelectedItem != null) {
                 pm.addProgress();
-                ConfigManager config = new ConfigManager("Data\\Login\\Data.conf");
+                ConfigManager config = new ConfigManager(Directory.GetCurrentDirectory + "Data\\Login\\Data.conf");
                 pm.addProgress();
                 string seperator = "2#g6b";
                 string seperator2 = "82#/hr";
@@ -182,10 +140,10 @@ namespace MySQL_Client {
         }
 
         private void delete_loginData_click(object sender, RoutedEventArgs e) {
-            ProzessManager pm = new ProzessManager("Delete Logindata",2);
-            ConfigManager config = new ConfigManager("Data\\Login\\Data.conf");
+            ProzessManager pm = new ProzessManager("Delete Logindata", 2);
+            ConfigManager config = new ConfigManager(Directory.GetCurrentDirectory + "Data\\Login\\Data.conf");
             pm.addProgress();
-            if(lb_saveDataPanel.SelectedItem != null) {
+            if (lb_saveDataPanel.SelectedItem != null) {
                 config.init();
                 config.remove(lb_saveDataPanel.SelectedItem.ToString());
                 updateSavePanel();
@@ -199,10 +157,10 @@ namespace MySQL_Client {
 
         private void updateSavePanel() {
             lb_saveDataPanel.Items.Clear();
-            ConfigManager config = new ConfigManager("Data\\Login\\Data.conf");
+            ConfigManager config = new ConfigManager(Directory.GetCurrentDirectory + "Data\\Login\\Data.conf");
             config.init();
             List<string> list = config.readLines();
-            for(int i = 0;i<list.Count;i++) {
+            for (int i = 0; i < list.Count; i++) {
                 lb_saveDataPanel.Items.Add(list[i].ToString().Split('^')[0]);
             }
         }
