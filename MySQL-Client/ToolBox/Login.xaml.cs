@@ -46,7 +46,7 @@ namespace MySQL_Client {
             t.Start();
         }
 
-        private void login() {
+        private async void login() {
             ProzessManager pm = new ProzessManager("Login", 5);
             MySQLHandle.setConnectionString(ip, port, user, password, null!);
             pm.addProgress();
@@ -58,8 +58,7 @@ namespace MySQL_Client {
                 return;
             }
             pm.addProgress();
-            Thread thread = new Thread(() => { MainWindow.updateTreeView(); });
-            thread.Start();
+            await Task.Run(() => { MainWindow.updateTreeView(); });
             pm.addProgress();
             this.Dispatcher.Invoke(() => {
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_login.IsEnabled = false;
@@ -69,11 +68,14 @@ namespace MySQL_Client {
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_sql.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeDatabase.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeTable.IsEnabled = true;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_reloadTreeView.IsEnabled = true;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_clearDataGrid.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).addDatabase_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).addTable_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).openSql_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).login_image.Opacity = 0.2;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).logout_image.Opacity = 1;
+                ((MainWindow)System.Windows.Application.Current.MainWindow).reloadTreeView_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).removeDatabase_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).removeTable_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).no_tableList.Visibility = Visibility.Collapsed;

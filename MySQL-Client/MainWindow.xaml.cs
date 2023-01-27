@@ -53,6 +53,8 @@ namespace MySQL_Client {
             bt_sql.IsEnabled = false;
             bt_removeDatabase.IsEnabled = false;
             bt_removeTable.IsEnabled = false;
+            bt_reloadTreeView.IsEnabled = false;
+            bt_clearDataGrid.IsEnabled = false;
             treeview.Items.Clear();
             pm.addProgress();
             MainViewManager.updateAddressList("Server:      -");
@@ -71,6 +73,7 @@ namespace MySQL_Client {
             login_image.Opacity = 1;
             removeDatabase_image.Opacity = 0.2;
             removeTable_image.Opacity = 0.2;
+            reloadTreeView_image.Opacity = 0.2;
             table_view.Margin = new Thickness(310, 114, 300, 33);
             sql_commander.Visibility = Visibility.Collapsed;
             pm.addProgress();
@@ -96,9 +99,9 @@ namespace MySQL_Client {
             }
         }
 
-        private void sqlSubmit(object sender, RoutedEventArgs e) {
+        private async void sqlSubmit(object sender, RoutedEventArgs e) {
             string database = MySQLHandle.database;
-            ProzessManager pm = new ProzessManager("Sql Request",0);
+            ProzessManager pm = new ProzessManager("Sql Request",3);
             pm.addProgress();
             if(tb_sqlCommand.Text != "" && tb_sqlCommand.Text != null) {
                 pm.addProgress();
@@ -108,15 +111,13 @@ namespace MySQL_Client {
                     no_table.Visibility = Visibility.Collapsed;
                 }
             }
-            Thread thread = new Thread(() => { MainWindow.updateTreeView(); });
-            thread.Start();
+            await Task.Run(() => { updateTreeView(); });
             pm.addProgress();
             pm.done();
         }
 
-        private void reloadTreeView(object sender, RoutedEventArgs e) {
-            Thread thread = new Thread(() => { MainWindow.updateTreeView(); });
-            thread.Start();
+        private async void reloadTreeView(object sender, RoutedEventArgs e) {
+            await Task.Run(() => { updateTreeView(); });
         }
 
         private void tb_sqlCommand_KeyDown(object sender, KeyEventArgs e) {
@@ -134,6 +135,7 @@ namespace MySQL_Client {
             if (MySQLHandle.isConnected()) {
                 TreeViewItem newDatabase;
                 dispatcher.Invoke(() => {
+                    ((MainWindow)Application.Current.MainWindow).no_tableList.Visibility = Visibility.Collapsed;
                     ((MainWindow)Application.Current.MainWindow).treeview.Items.Clear();
                     newDatabase = new TreeViewItem();
                     newDatabase.Header = "Neue Datenbank";
@@ -178,6 +180,29 @@ namespace MySQL_Client {
                 }
             }
             MySQLHandle.setDatabase(null);
+        }
+
+        private async void reloadTreeView_Click(object sender, RoutedEventArgs e) {
+            ProzessManager pm = new ProzessManager("Load Databases",2);
+            pm.addProgress();
+            await Task.Run(() => { updateTreeView(); });
+            pm.addProgress();
+            pm.done();
+        }
+
+        private void addDatabase_Click(object sender, RoutedEventArgs e) {
+            AddDatabase addDatabase = new AddDatabase();
+            addDatabase.ShowDialog();
+        }
+
+        private void clearDataGrid_click(object sender, RoutedEventArgs e) {
+            table_view_datagrid.ItemsSource = null;
+            no_table.Visibility = Visibility.Visible;
+        }
+
+        private void removeDatabase_Click(object sender, RoutedEventArgs e) {
+            RemoveDatabase removeDatabase = new RemoveDatabase();
+            removeDatabase.ShowDialog();
         }
     }
 }

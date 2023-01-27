@@ -39,6 +39,19 @@ namespace MySQL_Client
             }
         }
 
+        public static bool sendDirekt(string command) {
+            try {
+                MySqlConnection connection = new MySqlConnection(buildConnectionString());
+                connection.Open();
+                MySqlCommand mySqlCommand = new MySqlCommand(command, connection);
+                mySqlCommand.ExecuteNonQuery();
+                return true;
+            }catch(Exception ex) {
+                MainViewManager.setErrorMessage(ex.ToString());
+                return false;
+            }
+        }
+
         private static string buildConnectionString() {
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
             builder.Server= ip;

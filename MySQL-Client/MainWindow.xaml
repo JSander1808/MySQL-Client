@@ -87,8 +87,8 @@
             <Border BorderThickness="2" BorderBrush="Gray">
                 <Grid>
                     <Label Content="Datein" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
-                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Click="reloadTreeView" ToolTip="Datein neu laden">
-                        <Image Source="SourceData/reload_white.png"/>
+                    <Button Style="{DynamicResource ButtonStyle}" x:Name="bt_reloadTreeView" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" IsEnabled="False" Click="reloadTreeView_Click" ToolTip="Datein neu laden">
+                        <Image x:Name="reloadTreeView_image" Source="SourceData/reload_white.png" Opacity="0.2"/>
                     </Button>
                     <TreeView x:Name="treeview" Background="#292929" Margin="0,20,0,0"/>
                     <Label x:Name="no_tableList" Content="Kein Datein verfügbar." Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
@@ -103,10 +103,10 @@
                 <Grid Margin="0,0,0,0">
                     <Label Content="Werkzeuge" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
                     <DockPanel Margin="0,20,0,0" HorizontalAlignment="Left">
-                        <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Datenbank erstellen">
+                        <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Datenbank erstellen" Click="addDatabase_Click">
                             <Image x:Name="addDatabase_image" Source="SourceData/databaseAdd_white.png" Opacity="0.2"/>
                         </Button>
-                        <Button x:Name="bt_removeDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Datenbank löschen">
+                        <Button x:Name="bt_removeDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Datenbank löschen" Click="removeDatabase_Click">
                             <Image x:Name="removeDatabase_image" Source="SourceData/databaseRemove_white.png" Opacity="0.2"/>
                         </Button>
                         <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Tabelle erstellen">
@@ -147,6 +147,7 @@
             <Border BorderBrush="Gray" BorderThickness="2">
                 <Grid>
                     <Label Content="Tabellen" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
+                    <Button Style="{DynamicResource ButtonStyle}" x:Name="bt_clearDataGrid" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Content="X" Click="clearDataGrid_click" ToolTip="SQL-Console schließen" IsEnabled="False"/>
                     <DataGrid  x:Name="table_view_datagrid" Margin="0,20,0,0" Background="#292929" AlternatingRowBackground="#303030" RowBackground="#292929" RowHeaderWidth="0" Loaded="table_view_datagrid_Loaded" Foreground="White" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" IsReadOnly="True">
                         <DataGrid.Resources>
                             <Style TargetType="DataGridColumnHeader">
