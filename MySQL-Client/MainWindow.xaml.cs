@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace MySQL_Client {
     /// <summary>
@@ -96,6 +97,7 @@ namespace MySQL_Client {
         }
 
         private void sqlSubmit(object sender, RoutedEventArgs e) {
+            string database = MySQLHandle.database;
             ProzessManager pm = new ProzessManager("Sql Request",0);
             pm.addProgress();
             if(tb_sqlCommand.Text != "" && tb_sqlCommand.Text != null) {
@@ -106,14 +108,76 @@ namespace MySQL_Client {
                     no_table.Visibility = Visibility.Collapsed;
                 }
             }
-            MainViewManager.updateTreeView();
+            Thread thread = new Thread(() => { MainWindow.updateTreeView(); });
+            thread.Start();
             pm.addProgress();
             pm.done();
         }
 
         private void reloadTreeView(object sender, RoutedEventArgs e) {
-            Thread thread = new Thread(() => { MainViewManager.updateTreeView(); });
+            Thread thread = new Thread(() => { MainWindow.updateTreeView(); });
             thread.Start();
+        }
+
+        private void tb_sqlCommand_KeyDown(object sender, KeyEventArgs e) {
+            if(e.Key== Key.Enter) {
+                sqlSubmit(sender, e);
+            }
+        }
+
+        private void bt_help_Click(object sender, RoutedEventArgs e) {
+            System.Diagnostics.Process.Start("cmd", "/c " + "start https://www.google.com");
+        }
+
+        public static void updateTreeView() {
+            Dispatcher dispatcher = Application.Current.Dispatcher;
+            if (MySQLHandle.isConnected()) {
+                TreeViewItem newDatabase;
+                dispatcher.Invoke(() => {
+                    ((MainWindow)Application.Current.MainWindow).treeview.Items.Clear();
+                    newDatabase = new TreeViewItem();
+                    newDatabase.Header = "Neue Datenbank";
+                    newDatabase.FontSize = 15;
+                    newDatabase.Foreground = Brushes.White;
+
+                    ((MainWindow)Application.Current.MainWindow).treeview.Items.Add(newDatabase);
+                });
+                MySqlDataReader reader = MySQLHandle.GetData("show databases;");
+                if (reader != null) {
+                    while (reader.Read()) {
+                        TreeViewItem item = null!;
+                        dispatcher.Invoke(() => {
+                            item = new TreeViewItem();
+                            string header = reader.GetString(0);
+                            item.Header = header;
+                            item.FontSize = 15;
+                            item.Foreground = Brushes.White;
+                            item.Selected += (sender, e) => { MySQLHandle.setDatabase(header); };
+                        });
+                        MySQLHandle.setDatabase(reader.GetString(0));
+                        MySqlDataReader readerTable = MySQLHandle.GetData("show tables;");
+                        if (readerTable != null) {
+                            while (readerTable.Read()) {
+                                TreeViewItem itemTable;
+                                dispatcher.Invoke(() => {
+                                    itemTable = new TreeViewItem();
+                                    itemTable.Header = readerTable.GetString(0);
+                                    itemTable.FontSize = 15;
+                                    itemTable.Foreground = Brushes.White;
+                                    string command = MySQLHandle.ip + "!?#-2" + reader.GetString(0) + "!?#-2" + readerTable.GetString(0);
+                                    itemTable.Selected += (sender, e) => {
+                                        Thread thread = new Thread(() => { MainViewManager.loadDataTable(command); });
+                                        thread.Start();
+                                    };
+                                    item.Items.Add(itemTable);
+                                });
+                            }
+                        }
+                        dispatcher.Invoke(() => { ((MainWindow)Application.Current.MainWindow).treeview.Items.Add(item); });
+                    }
+                }
+            }
+            MySQLHandle.setDatabase(null);
         }
     }
 }

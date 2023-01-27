@@ -81,13 +81,13 @@
     </Window.Resources>
     <Grid>
         <Grid x:Name="logo" Background="#292929" HorizontalAlignment="Left" VerticalAlignment="Top" Width="305" Height="109">
-            <Label Content="MySQL-Client" FontWeight="Bold" FontSize="45" Foreground="White" VerticalAlignment="Center"/>
+            <Label Content="MySQL-Client" FontWeight="Bold" FontSize="45" Foreground="White" VerticalAlignment="Center" ToolTip="MySQL-Client"/>
         </Grid>
         <Grid x:Name="explorer" Margin="0,114,0,33" HorizontalAlignment="Left" Width="305">
             <Border BorderThickness="2" BorderBrush="Gray">
                 <Grid>
                     <Label Content="Datein" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
-                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Click="reloadTreeView">
+                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Click="reloadTreeView" ToolTip="Datein neu laden">
                         <Image Source="SourceData/reload_white.png"/>
                     </Button>
                     <TreeView x:Name="treeview" Background="#292929" Margin="0,20,0,0"/>
@@ -103,30 +103,30 @@
                 <Grid Margin="0,0,0,0">
                     <Label Content="Werkzeuge" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
                     <DockPanel Margin="0,20,0,0" HorizontalAlignment="Left">
-                        <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                        <Button x:Name="bt_addDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Datenbank erstellen">
                             <Image x:Name="addDatabase_image" Source="SourceData/databaseAdd_white.png" Opacity="0.2"/>
                         </Button>
-                        <Button x:Name="bt_removeDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                        <Button x:Name="bt_removeDatabase" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Datenbank löschen">
                             <Image x:Name="removeDatabase_image" Source="SourceData/databaseRemove_white.png" Opacity="0.2"/>
                         </Button>
-                        <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                        <Button x:Name="bt_addTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Tabelle erstellen">
                             <Image x:Name="addTable_image" Source="SourceData/tableAdd_white.png" Opacity="0.2"/>
                         </Button>
-                        <Button x:Name="bt_removeTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0">
+                        <Button x:Name="bt_removeTable" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" ToolTip="Tabelle löschen">
                             <Image x:Name="removeTable_image" Source="SourceData/tableRemove_white.png" Opacity="0.2"/>
                         </Button>
-                        <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="sql_click">
+                        <Button x:Name="bt_sql" Style="{DynamicResource ButtonStyle}" Width="50" IsEnabled="False" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="sql_click" ToolTip="SQL-Console">
                             <Image x:Name="openSql_image" Source="SourceData/sql_white.png" Opacity="0.2"/>
                         </Button>
                     </DockPanel>
                     <DockPanel HorizontalAlignment="Right" Margin="0,20,10,0">
-                        <Button x:Name="bt_help" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" IsEnabled="True">
+                        <Button x:Name="bt_help" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" IsEnabled="True" ToolTip="Informationen" Click="bt_help_Click">
                             <Image x:Name="help_image" Source="SourceData/help.png"/>
                         </Button>
-                        <Button x:Name="bt_login" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="LogInButton_Click">
+                        <Button x:Name="bt_login" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" Click="LogInButton_Click" ToolTip="Anmelden">
                             <Image x:Name="login_image" Source="SourceData/login_white.png"/>
                         </Button>
-                        <Button x:Name="bt_logout" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" IsEnabled="False" Click="LogOutButton_click">
+                        <Button x:Name="bt_logout" Style="{DynamicResource ButtonStyle}" Width="50" Height="50" Background="#292929" Margin="5,0,0,0" Foreground="White" BorderThickness="0" IsEnabled="False" Click="LogOutButton_click" ToolTip="Abmelden">
                             <Image x:Name="logout_image" Source="SourceData/logout_white.png" Opacity="0.2"/>
                         </Button>
                     </DockPanel>
@@ -137,8 +137,8 @@
             <Border BorderBrush="Gray" BorderThickness="2">
                 <Grid>
                     <Label Content="SQL Console" FontWeight="Bold" FontSize="15" Height="20" VerticalAlignment="Top" Foreground="White" Background="#404040" Padding="5,0,0,0"/>
-                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Content="X" Click="sql_click"/>
-                    <TextBox x:Name="tb_sqlCommand" Background="#292929" VerticalAlignment="Top" Height="141" Margin="10,25,10,0" RenderTransformOrigin="0.5,0.5" Foreground="White"/>
+                    <Button Style="{DynamicResource ButtonStyle}" Background="#292929" Height="20" HorizontalAlignment="Right" Width="20" VerticalAlignment="Top" Foreground="White" Content="X" Click="sql_click" ToolTip="SQL-Console schließen"/>
+                    <TextBox x:Name="tb_sqlCommand" Background="#292929" VerticalAlignment="Top" Height="141" Margin="10,25,10,0" RenderTransformOrigin="0.5,0.5" Foreground="White" KeyDown="tb_sqlCommand_KeyDown"/>
                     <Button Style="{DynamicResource ButtonStyle}" Background="#292929" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="160" Height="29" Margin="0,0,10,10" Content="Senden" Foreground="White" FontSize="20" Click="sqlSubmit"/>
                 </Grid>
             </Border>

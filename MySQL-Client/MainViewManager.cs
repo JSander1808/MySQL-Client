@@ -21,50 +21,6 @@ namespace MySQL_Client {
 
         }
 
-        public static void updateTreeView() {
-            uidispatcher.BeginInvoke(() => {
-                if (MySQLHandle.isConnected()) {
-                    ((MainWindow)Application.Current.MainWindow).treeview.Items.Clear();
-                    TreeViewItem newDatabase = new TreeViewItem();
-                    newDatabase.Header = "Neue Datenbank";
-                    newDatabase.FontSize = 15;
-                    newDatabase.Foreground = Brushes.White;
-                    ((MainWindow)Application.Current.MainWindow).treeview.Items.Add(newDatabase);
-                    MySqlDataReader reader = MySQLHandle.GetData("show databases;");
-                    if (reader != null) {
-                        while (reader.Read()) {
-                            TreeViewItem item = null!;
-                            item = new TreeViewItem();
-                            string header = reader.GetString(0);
-                            item.Header = header;
-                            item.FontSize = 15;
-                            item.Foreground = Brushes.White;
-                            item.Selected += (sender, e) => { MySQLHandle.setDatabase(header); };
-                            MySQLHandle.setDatabase(reader.GetString(0));
-                            MySqlDataReader readerTable = MySQLHandle.GetData("show tables;");
-                            if (readerTable != null) {
-                                while (readerTable.Read()) {
-                                    TreeViewItem itemTable;
-                                    itemTable = new TreeViewItem();
-                                    itemTable.Header = readerTable.GetString(0);
-                                    itemTable.FontSize = 15;
-                                    itemTable.Foreground = Brushes.White;
-                                    string command = MySQLHandle.ip + "!?#-2" + reader.GetString(0) + "!?#-2" + readerTable.GetString(0);
-                                    itemTable.Selected += (sender, e) => {
-                                        Thread thread = new Thread(() => { MainViewManager.loadDataTable(command); });
-                                        thread.Start();
-                                    };
-                                    item.Items.Add(itemTable);
-                                }
-                            }
-                            ((MainWindow)Application.Current.MainWindow).treeview.Items.Add(item);
-                        }
-                    }
-                }
-                MySQLHandle.setDatabase(null);
-            });
-        }
-
         public static void loadDataTable(string command) {
             ProzessManager pm = new ProzessManager("Load Table", 4);
             pm.addProgress();

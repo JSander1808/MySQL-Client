@@ -58,7 +58,8 @@ namespace MySQL_Client {
                 return;
             }
             pm.addProgress();
-            MainViewManager.updateTreeView();
+            Thread thread = new Thread(() => { MainWindow.updateTreeView(); });
+            thread.Start();
             pm.addProgress();
             this.Dispatcher.Invoke(() => {
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_login.IsEnabled = false;
