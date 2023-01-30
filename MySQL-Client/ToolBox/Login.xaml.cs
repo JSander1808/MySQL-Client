@@ -27,6 +27,7 @@ namespace MySQL_Client {
         private static uint port = 0;
         private static string user = null!;
         private static string password = null!;
+        private bool isLoged = false;
         public Login() {
             InitializeComponent();
             updateSavePanel();
@@ -47,6 +48,10 @@ namespace MySQL_Client {
         }
 
         private async void login() {
+            this.Dispatcher.Invoke(() => { 
+                bt_cancel.IsEnabled = false; 
+                bt_loginSubmit.IsEnabled = false;
+            });
             ProzessManager pm = new ProzessManager("Login", 5);
             MySQLHandle.setConnectionString(ip, port, user, password, null!);
             pm.addProgress();
@@ -54,6 +59,10 @@ namespace MySQL_Client {
                 this.Dispatcher.Invoke(() => {
                     lb_error.Content = "Die Anmeldedaten sind nicht korrekt.";
                     pm.done();
+                    this.Dispatcher.Invoke(() => { 
+                        bt_cancel.IsEnabled = true;
+                        bt_loginSubmit.IsEnabled = true;
+                    });
                 });
                 return;
             }
@@ -64,25 +73,25 @@ namespace MySQL_Client {
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_login.IsEnabled = false;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_logout.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_addDatabase.IsEnabled = true;
-                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_addTable.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_sql.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeDatabase.IsEnabled = true;
-                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeTable.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_reloadTreeView.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_clearDataGrid.IsEnabled = true;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).addDatabase_image.Opacity = 1;
-                ((MainWindow)System.Windows.Application.Current.MainWindow).addTable_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).openSql_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).login_image.Opacity = 0.2;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).logout_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).reloadTreeView_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).removeDatabase_image.Opacity = 1;
-                ((MainWindow)System.Windows.Application.Current.MainWindow).removeTable_image.Opacity = 1;
                 ((MainWindow)System.Windows.Application.Current.MainWindow).no_tableList.Visibility = Visibility.Collapsed;
                 Close();
             });
             pm.addProgress();
             pm.done();
+            this.Dispatcher.Invoke(() => { 
+                bt_cancel.IsEnabled = true; 
+                bt_loginSubmit.IsEnabled = true;
+            });
         }
 
         private void cancel_click(object sender, RoutedEventArgs e) {

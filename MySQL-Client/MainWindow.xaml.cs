@@ -135,12 +135,20 @@ namespace MySQL_Client {
             if (MySQLHandle.isConnected()) {
                 TreeViewItem newDatabase;
                 dispatcher.Invoke(() => {
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeTable.IsEnabled = false;
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).bt_addTable.IsEnabled = false;
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).addTable_image.Opacity = 0.2;
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).removeTable_image.Opacity = 0.2;
                     ((MainWindow)Application.Current.MainWindow).no_tableList.Visibility = Visibility.Collapsed;
                     ((MainWindow)Application.Current.MainWindow).treeview.Items.Clear();
                     newDatabase = new TreeViewItem();
                     newDatabase.Header = "Neue Datenbank";
                     newDatabase.FontSize = 15;
                     newDatabase.Foreground = Brushes.White;
+                    newDatabase.Selected += (sender, e) => { 
+                        AddDatabase addDatabase = new AddDatabase();
+                        addDatabase.ShowDialog();
+                    };
 
                     ((MainWindow)Application.Current.MainWindow).treeview.Items.Add(newDatabase);
                 });
@@ -154,7 +162,11 @@ namespace MySQL_Client {
                             item.Header = header;
                             item.FontSize = 15;
                             item.Foreground = Brushes.White;
-                            item.Selected += (sender, e) => { MySQLHandle.setDatabase(header); };
+                            item.Selected += (sender, e) => { 
+                                MySQLHandle.setDatabase(header);
+                                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeTable.IsEnabled = true;
+                                ((MainWindow)System.Windows.Application.Current.MainWindow).removeTable_image.Opacity = 1;
+                            };
                         });
                         MySQLHandle.setDatabase(reader.GetString(0));
                         MySqlDataReader readerTable = MySQLHandle.GetData("show tables;");
@@ -203,6 +215,11 @@ namespace MySQL_Client {
         private void removeDatabase_Click(object sender, RoutedEventArgs e) {
             RemoveDatabase removeDatabase = new RemoveDatabase();
             removeDatabase.ShowDialog();
+        }
+
+        private void addTable_Click(object sender, RoutedEventArgs e) {
+            AddTable addTable = new AddTable();
+            addTable.ShowDialog();
         }
     }
 }

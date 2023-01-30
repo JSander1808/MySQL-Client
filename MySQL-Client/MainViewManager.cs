@@ -44,7 +44,7 @@ namespace MySQL_Client {
         public static void setErrorMessage(string message) {
             uidispatcher.BeginInvoke(() => {
                 Error error = new Error(message);
-                error.ShowDialog();
+                error.Show();
             });
         }
     }

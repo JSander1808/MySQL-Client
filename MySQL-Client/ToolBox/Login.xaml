@@ -81,7 +81,7 @@
             <TextBox x:Name="tb_user" HorizontalAlignment="Right" Margin="0,226,229,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="180" Background="#404040" Foreground="White" Height="29"/>
             <Label Content="Password" HorizontalAlignment="Right" Margin="0,191,100,0" VerticalAlignment="Top" Width="97" Foreground="White" FontSize="20"/>
             <PasswordBox x:Name="pwb_pw" HorizontalAlignment="Right" Margin="0,226,20,0" VerticalAlignment="Top" Width="180" Background="#404040" Foreground="White" Height="29" FontSize="20"/>
-            <Button Style="{DynamicResource ButtonStyle}" Content="Abbrechen" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="29" Background="#292929" Foreground="White" Width="150" BorderBrush="Gray" BorderThickness="2" Click="cancel_click"/>
+            <Button x:Name="bt_cancel" Style="{DynamicResource ButtonStyle}" Content="Abbrechen" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Height="29" Background="#292929" Foreground="White" Width="150" BorderBrush="Gray" BorderThickness="2" Click="cancel_click"/>
             <Button Style="{DynamicResource ButtonStyle}" x:Name="bt_loginSubmit" Content="Anmelden" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,169,10" Height="29" Background="#292929" Foreground="White" Width="150" BorderBrush="Gray" BorderThickness="2" Click="login_click"/>
             <Label x:Name="lb_error" HorizontalAlignment="Left" Margin="318,265,0,0" VerticalAlignment="Top" Width="387" Height="32" Foreground="Red"/>
             <Grid Width="1" HorizontalAlignment="Right" Margin="0,100,416,10" Background="Gray"/>
