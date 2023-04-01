@@ -64,11 +64,6 @@ namespace MySQL_Client {
                 typ.Foreground = Brushes.White;
                 typ.HorizontalAlignment = HorizontalAlignment.Left;
                 typ.Margin = new Thickness(227,0,0,0);
-                var textbox = (TextBox)typ.Template.FindName("PART_EditableTextBox", typ);
-                if (textbox != null) {
-                    var parent = (Border)textbox.Parent;
-                    parent.Background = Brushes.Yellow;
-                }
 
 
                 length.Height = 29;

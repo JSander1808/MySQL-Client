@@ -166,6 +166,8 @@ namespace MySQL_Client {
                                 MySQLHandle.setDatabase(header);
                                 ((MainWindow)System.Windows.Application.Current.MainWindow).bt_removeTable.IsEnabled = true;
                                 ((MainWindow)System.Windows.Application.Current.MainWindow).removeTable_image.Opacity = 1;
+                                ((MainWindow)System.Windows.Application.Current.MainWindow).bt_addTable.IsEnabled = true;
+                                ((MainWindow)System.Windows.Application.Current.MainWindow).addTable_image.Opacity = 1;
                             };
                         });
                         MySQLHandle.setDatabase(reader.GetString(0));
